@@ -12,7 +12,6 @@ RUN apt-get update -qq -y && \
 RUN adduser --disabled-password --gecos "" --home /data dokku
 
 COPY bootstrap.sh /tmp/bootstrap.sh
-RUN chmod 755 /tmp/bootstrap.sh
 RUN /tmp/bootstrap.sh && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /logs
@@ -21,13 +20,12 @@ RUN mkdir -p /var/run/sshd
 COPY supervisord.conf /etc/supervisor/supervisord.conf
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# do not ask. Just for inital testing.
-RUN groupmod --gid 999 docker
+RUN mv /usr/bin/docker /usr/bin/docker-original
+RUN echo "dokku ALL=(ALL) NOPASSWD: /usr/bin/docker-original" >> /etc/sudoers
+COPY docker-wrapper.sh /usr/bin/docker
 
 COPY prepare_dokku.sh /usr/local/bin/prepare_dokku
-RUN chmod 755 /usr/local/bin/prepare_dokku
 COPY start.sh /usr/local/bin/start_dokku
-RUN chmod 755 /usr/local/bin/start_dokku
 
 CMD ["start_dokku"]
 
