@@ -13,6 +13,7 @@ RUN apt-get update -qq -y && \
 RUN adduser --disabled-password --gecos "" --home /data dokku
 
 ADD https://raw.githubusercontent.com/protonet/dokku/master/bootstrap.sh /tmp/bootstrap.sh
+RUN chmod +x /tmp/bootstrap.sh
 RUN /tmp/bootstrap.sh && rm -rf /var/lib/apt/lists/*
 
 RUN git clone https://github.com/protonet/dokku-linkfile.git $PLUGIN_PATH/linkfile
