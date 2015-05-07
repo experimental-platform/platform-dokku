@@ -4,6 +4,7 @@ FROM dockerregistry.protorz.net/ubuntu:latest
 ENV DOKKU_REPO https://github.com/protonet/dokku.git
 ENV DOKKU_BRANCH master
 ENV DOKKU_ROOT /data
+ENV PLUGIN_PATH /var/lib/dokku/plugins
 
 RUN apt-get update -qq -y && \
   apt-get install -qq -y supervisor openssh-server && \
@@ -13,6 +14,8 @@ RUN adduser --disabled-password --gecos "" --home /data dokku
 
 ADD https://raw.githubusercontent.com/protonet/dokku/master/bootstrap.sh /tmp/bootstrap.sh
 RUN /tmp/bootstrap.sh && rm -rf /var/lib/apt/lists/*
+
+RUN git clone https://github.com/protonet/dokku-linkfile.git $PLUGIN_PATH/linkfile
 
 RUN mkdir -p /logs
 RUN mkdir -p /var/run/sshd
