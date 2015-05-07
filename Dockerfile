@@ -11,7 +11,7 @@ RUN apt-get update -qq -y && \
 
 RUN adduser --disabled-password --gecos "" --home /data dokku
 
-COPY bootstrap.sh /tmp/bootstrap.sh
+ADD https://raw.githubusercontent.com/protonet/dokku/master/bootstrap.sh /tmp/bootstrap.sh
 RUN /tmp/bootstrap.sh && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /logs
