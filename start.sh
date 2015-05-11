@@ -1,7 +1,7 @@
 #!/bin/bash
 chown dokku:dokku $DOKKU_ROOT
 
-usermod -G $DOCKER_GID dokku
+groupmod -g $DOCKER_GID docker
 
 sudo -nE -u dokku bash -c '/usr/local/bin/prepare_dokku'
 
