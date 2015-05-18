@@ -56,6 +56,7 @@ RUN mkdir -p /var/run/sshd
 
 COPY supervisord.conf /etc/supervisor/supervisord.conf
 COPY nginx.conf /etc/nginx/nginx.conf
+COPY nginx.conf.app.template /var/lib/dokku/plugins/nginx-vhosts/templates/nginx.conf.template
 
 COPY prepare_dokku.sh /usr/local/bin/prepare_dokku
 COPY start.sh /usr/local/bin/start_dokku
