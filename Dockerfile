@@ -57,6 +57,7 @@ RUN mkdir -p /var/run/sshd
 COPY supervisord.conf /etc/supervisor/supervisord.conf
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY nginx.conf.app.template /var/lib/dokku/plugins/nginx-vhosts/templates/nginx.ssl.conf.template
+RUN mkdir -p $DOKKU_ROOT/tls && touch $DOKKU_ROOT/tls/server.crt  && touch $DOKKU_ROOT/tls/server.key
 
 COPY prepare_dokku.sh /usr/local/bin/prepare_dokku
 COPY start.sh /usr/local/bin/start_dokku
