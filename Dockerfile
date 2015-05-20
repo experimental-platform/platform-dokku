@@ -65,7 +65,7 @@ RUN rm /etc/nginx/conf.d/dokku.conf
 
 COPY prepare_dokku.sh /usr/local/bin/prepare_dokku
 COPY start.sh /usr/local/bin/start_dokku
-
+ENV foo bar
 CMD ["start_dokku"]
 
 EXPOSE 22 80
