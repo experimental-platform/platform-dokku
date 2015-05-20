@@ -1,5 +1,5 @@
 #!/bin/bash
-cat /config/nodename > $DOKKU_ROOT/HOSTNAME
+echo $HOST_HOSTNAME > $DOKKU_ROOT/HOSTNAME
 cat /config/nodename > $DOKKU_ROOT/VHOST
 [[ -e $DOKKU_ROOT/.ssh/authorized_keys ]] || touch $DOKKU_ROOT/.ssh/authorized_keys
 [[ -e $DOKKU_ROOT/.sshcommand ]] || /usr/local/bin/sshcommand create dokku `which dokku`
