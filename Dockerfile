@@ -48,11 +48,7 @@ RUN unzip /tmp/dokku-linkfile.zip -d /tmp/ && \
     mv /tmp/dokku-linkfile-master/* /var/lib/dokku/plugins/linkfile/ && \
     rm -rf /tmp/dokku-linkfile-master /tmp/dokku-linkfile.zip
 
-ADD https://github.com/protonet/dokku-nginx-hostname/archive/master.zip /tmp/dokku-nginx-hostname.zip
-RUN unzip /tmp/dokku-nginx-hostname.zip -d /tmp/ && \
-    mkdir -p /var/lib/dokku/plugins/nginx-hostname/ && \
-    mv /tmp/dokku-nginx-hostname-master/* /var/lib/dokku/plugins/nginx-hostname/ && \
-    rm -rf /tmp/dokku-nginx-hostname-master /tmp/dokku-nginx-hostname.zip
+COPY plugins/ /var/lib/dokku/plugins/
 
 RUN dokku plugins-install-dependencies && dokku plugins-install
 RUN sshcommand create dokku /usr/local/bin/dokku
