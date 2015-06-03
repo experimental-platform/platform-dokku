@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
+
+STDIN=$(cat)
+APP="$1"
+
+STORAGE_PATH="${DOKKU_ROOT}/${APP}/data"
+mkdir -p $STORAGE_PATH
+
+echo "$STDIN --volume=$STORAGE_PATH:/data"
