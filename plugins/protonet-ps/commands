@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
+source "$(dirname $0)/../common/functions"
+
+case "$1" in
+  protonet:ls)
+    dokku_apps=$(ls -d $DOKKU_ROOT/*/ 2>/dev/null) || (echo "You haven't deployed any applications yet" && exit 1)
+
+    dokku_col_log_info1_quiet "App Name" "Container Type" "Container Id" "Status"
+
+    for dokku_app in $dokku_apps; do
+      APP=$(basename $dokku_app)
+      DOKKU_APP_CIDS=$(get_container_ids $APP)
+      DOCKER_RUNNING_CONTAINERS=$(docker ps -q --no-trunc)
+      if [[ -n $DOKKU_APP_CIDS ]]; then
+        for DOKKU_APP_CID in $DOKKU_APP_CIDS; do
+          DOKKU_APP_CONTAINER_STATUS="stopped"
+          [[ $DOCKER_RUNNING_CONTAINERS =~ $DOKKU_APP_CID ]] && DOKKU_APP_CONTAINER_STATUS="started"
+          DOKKU_APP_CONTAINER_TYPE=$(grep -l $DOKKU_APP_CID $DOKKU_ROOT/$APP/CONTAINER.* | awk -F. '{ print $2 }')
+          TECHNOLOGIE=$(docker exec -it ${DOKKU_APP_CID} bash -c '
+              buildpack_path=/tmp/buildpacks
+              build_path=/app
+              selected_name="none"
+              if ls "$buildpack_path/heroku-buildpack-multi" > /dev/null 2>&1; then
+                selected_name="$($buildpack_path/heroku-buildpack-multi/bin/detect $build_path)" && selected_path="$buildpack_path/heroku-buildpack-multi"
+              fi
+              if [[ ! "$selected_path" ]]; then
+                buildpacks=($buildpack_path/*)
+                for buildpack in "${buildpacks[@]}"; do
+                  selected_name="$($buildpack/bin/detect $build_path)" \
+                    && selected_path="$buildpack" \
+                    && break
+                done
+              fi
+              echo $selected_name
+            ')
+          dokku_col_log_msg "$APP" "$DOKKU_APP_CONTAINER_TYPE" "$TECHNOLOGIE" "${DOKKU_APP_CID:0:12}" "$DOKKU_APP_CONTAINER_STATUS"
+        done
+      else
+        dokku_col_log_msg "$APP" "NOT_DEPLOYED" "NOT_DEPLOYED" "NOT_DEPLOYED" "NOT_DEPLOYED"
+      fi
+    done
+    ;;
+  *)
+    exit $DOKKU_NOT_IMPLEMENTED_EXIT
+    ;;
+esac
