@@ -15,4 +15,4 @@ TECHNOLOGIE=$(docker run --rm -t ${IMAGE} bash -c '
   fi
   echo $selected_name
 ')
-echo $TECHNOLOGIE > $DOKKU_ROOT/$APP/TECHNOLOGIE
+echo $TECHNOLOGIE | tr -d '\r' > $DOKKU_ROOT/$APP/TECHNOLOGIE

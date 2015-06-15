@@ -20,7 +20,7 @@ case "$1" in
           [[ $DOCKER_RUNNING_CONTAINERS =~ $DOKKU_APP_CID ]] && DOKKU_APP_CONTAINER_STATUS="started"
           DOKKU_APP_CONTAINER_TYPE=$(grep -l $DOKKU_APP_CID $DOKKU_ROOT/$APP/CONTAINER.* | awk -F. '{ print $2 }')
           [[ -e $DOKKU_ROOT/$APP/TECHNOLOGIE ]] && TECHNOLOGIE=$(cat $DOKKU_ROOT/$APP/TECHNOLOGIE)
-          TECHNOLOGIE=${TECHNOLOGIE:="none"}
+          [[ -z $TECHNOLOGIE ]] && TECHNOLOGIE=none
           dokku_col5_log_msg "$APP" "$DOKKU_APP_CONTAINER_TYPE" "$TECHNOLOGIE" "${DOKKU_APP_CID:0:12}" "$DOKKU_APP_CONTAINER_STATUS"
         done
       else
