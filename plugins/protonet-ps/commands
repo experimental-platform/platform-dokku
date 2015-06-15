@@ -2,6 +2,10 @@
 set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
 source "$(dirname $0)/../common/functions"
 
+dokku_col5_log_msg() {
+  printf "%-25s %-25s %-25s %-25s %-25s\n" "$@"
+}
+
 case "$1" in
   protonet:ls)
     dokku_apps=$(ls -d $DOKKU_ROOT/*/ 2>/dev/null) || (echo "You haven't deployed any applications yet" && exit 1)
@@ -17,10 +21,10 @@ case "$1" in
           DOKKU_APP_CONTAINER_TYPE=$(grep -l $DOKKU_APP_CID $DOKKU_ROOT/$APP/CONTAINER.* | awk -F. '{ print $2 }')
           [[ -e $DOKKU_ROOT/$APP/TECHNOLOGIE ]] && TECHNOLOGIE=$(cat $DOKKU_ROOT/$APP/TECHNOLOGIE)
           TECHNOLOGIE=${TECHNOLOGIE:="none"}
-          dokku_col_log_msg "$APP" "$DOKKU_APP_CONTAINER_TYPE" "$TECHNOLOGIE" "${DOKKU_APP_CID:0:12}" "$DOKKU_APP_CONTAINER_STATUS"
+          dokku_col5_log_msg "$APP" "$DOKKU_APP_CONTAINER_TYPE" "$TECHNOLOGIE" "${DOKKU_APP_CID:0:12}" "$DOKKU_APP_CONTAINER_STATUS"
         done
       else
-        dokku_col_log_msg "$APP" "NOT_DEPLOYED" "NOT_DEPLOYED" "NOT_DEPLOYED" "NOT_DEPLOYED"
+        dokku_col5_log_msg "$APP" "NOT_DEPLOYED" "NOT_DEPLOYED" "NOT_DEPLOYED" "NOT_DEPLOYED"
       fi
     done
     ;;
