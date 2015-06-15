@@ -3,13 +3,10 @@ set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
 
 APP="$1"; IMAGE="dokku/$APP"
 
-TECHNOLOGIE=$(docker run --rm -it ${IMAGE} bash -c '
+TECHNOLOGIE=$(docker run --rm -t ${IMAGE} bash -c '
   buildpack_path=/tmp/buildpacks
   build_path=/app
   selected_name="none"
-  if ls "$buildpack_path/heroku-buildpack-multi" > /dev/null 2>&1; then
-    selected_name="$($buildpack_path/heroku-buildpack-multi/bin/detect $build_path)"
-  fi
   if [[ "$selected_name" = "none" ]]; then
     buildpacks=($buildpack_path/*)
     for buildpack in "${buildpacks[@]}"; do
