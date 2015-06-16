@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
 
-APP="$1"; SSL_VHOST="$2"; NONSSL_VHOST="$3"
-LOCAL_HOSTNAME=$(cat $DOKKU_ROOT/HOSTNAME)
-echo "https://${NONSSL_VHOST}"
-echo "http://${LOCAL_HOSTNAME}/${APP}"
+APP="$1";
+HOSTNAME=$(cat $DOKKU_ROOT/HOSTNAME)
+DOMAIN_SUFFIX=$(cat $DOKKU_ROOT/DOMAIN_SUFFIX)
+echo "https://${HOSTNAME}${DOMAIN_SUFFIX}/${APP}"
+echo "http://${HOSTNAME}/${APP}"
