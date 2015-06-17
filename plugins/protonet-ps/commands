@@ -8,7 +8,7 @@ dokku_col5_log_msg() {
 
 case "$1" in
   protonet:ls)
-    dokku_apps=$(ls -d $DOKKU_ROOT/*/ 2>/dev/null) || (echo "You haven't deployed any applications yet" && exit 1)
+    dokku_apps=$(ls -d $DOKKU_ROOT/*/ 2>/dev/null) || exit 1)
 
     for dokku_app in $dokku_apps; do
       APP=$(basename $dokku_app)
