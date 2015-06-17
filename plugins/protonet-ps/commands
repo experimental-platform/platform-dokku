@@ -28,6 +28,11 @@ case "$1" in
       fi
     done
     ;;
+  help | protonet:help)
+      cat && cat<<EOF
+      protonet:ls                                 List Apps the protonet-way
+EOF
+
   *)
     exit $DOKKU_NOT_IMPLEMENTED_EXIT
     ;;
