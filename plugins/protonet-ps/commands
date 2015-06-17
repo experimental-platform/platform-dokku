@@ -8,7 +8,7 @@ dokku_col5_log_msg() {
 
 case "$1" in
   protonet:ls)
-    dokku_apps=$(ls -d $DOKKU_ROOT/*/ 2>/dev/null) || exit 1)
+    dokku_apps=$(ls -d $DOKKU_ROOT/*/ 2>/dev/null) || exit 1
 
     for dokku_app in $dokku_apps; do
       APP=$(basename $dokku_app)
@@ -29,10 +29,10 @@ case "$1" in
     done
     ;;
   help | protonet:help)
-      cat && cat<<EOF
+    cat && cat<<EOF
       protonet:ls                                 List Apps the protonet-way
 EOF
-
+    ;;
   *)
     exit $DOKKU_NOT_IMPLEMENTED_EXIT
     ;;
