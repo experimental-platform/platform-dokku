@@ -1,5 +1,7 @@
 #!/bin/bash
 cat /config/hostname > $DOKKU_ROOT/HOSTNAME
+# Dokku, oh Dokku, i hate you really much.
+cat /config/hostname > $DOKKU_ROOT/VHOST
 echo ".protonet.info" > $DOKKU_ROOT/DOMAIN_SUFFIX
 
 [[ -e $DOKKU_ROOT/.sshcommand ]] || /usr/local/bin/sshcommand create dokku `which dokku`
