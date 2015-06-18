@@ -30,7 +30,7 @@ case "$1" in
     ;;
   help | protonet:help)
     cat && cat<<EOF
-      protonet:ls                                 List Apps the protonet-way
+    protonet:ls                                     List Apps the protonet-way
 EOF
     ;;
   *)
