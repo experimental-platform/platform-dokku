@@ -59,6 +59,7 @@ RUN mkdir -p /var/run/sshd
 COPY supervisord.conf /etc/supervisor/supervisord.conf
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY nginx.conf.app.template /var/lib/dokku/plugins/nginx-vhosts/templates/nginx.conf.template
+COPY error_pages/ /error_pages/
 
 # we do not need this. Everything important is defined in nginx.conf above.
 RUN rm /etc/nginx/conf.d/dokku.conf
