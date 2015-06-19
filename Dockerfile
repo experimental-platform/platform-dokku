@@ -11,19 +11,15 @@ RUN apt-get update -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Docker GPG Key
-RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
 # Packagecloud GPG Key
 RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 418A7F2FB0E1E6E7EABF6FE8C2E73424D59097AB
 
 RUN echo "deb https://packagecloud.io/dokku/dokku/ubuntu/ trusty main" > /etc/apt/sources.list.d/dokku.list
-RUN echo "deb https://get.docker.com/ubuntu/ docker main" > /etc/apt/sources.list.d/docker.list
 
 RUN apt-get update -y && \
   apt-get install -y \
     supervisor \
     openssh-server \
-    lxc-docker \
     sshcommand \
     pluginhook \
     help2man \
