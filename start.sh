@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+
 chown dokku:dokku $DOKKU_ROOT
 chmod 0644 $DOKKU_ROOT/.dockercfg
 

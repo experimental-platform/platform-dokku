@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+
 cat /config/hostname > $DOKKU_ROOT/HOSTNAME
 # Dokku, oh Dokku, i hate you really much.
 cat /config/hostname > $DOKKU_ROOT/VHOST
