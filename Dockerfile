@@ -1,4 +1,4 @@
-FROM dockerregistry.protorz.net/ubuntu:latest
+FROM experimentalplatform/ubuntu:latest
 
 # ENV DOKKU_TAG v0.3.17
 ENV DOKKU_REPO https://github.com/protonet/dokku.git
