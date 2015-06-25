@@ -1,5 +1,5 @@
 #!/bin/bash
-set -xe
+set -e
 
 chown dokku:dokku $DOKKU_ROOT
 
