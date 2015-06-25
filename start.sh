@@ -2,7 +2,6 @@
 set -e
 
 chown dokku:dokku $DOKKU_ROOT
-chmod 0644 $DOKKU_ROOT/.dockercfg
 
 getent group docker && groupmod -g $DOCKER_GID docker || groupadd -g $DOCKER_GID docker
 

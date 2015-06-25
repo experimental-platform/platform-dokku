@@ -19,4 +19,4 @@ do
 done
 # rebuild all nginx.conf (only needed if hostname was changed)
 # Strange but we need 'dokku domains:clear' here o.O
-dokku apps | tail -n +2 | xargs -n1 dokku domains:clear
+dokku apps | tail -n +2 | xargs -n1 dokku domains:clear || true
