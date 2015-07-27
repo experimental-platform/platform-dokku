@@ -1,4 +1,4 @@
-# Experimental Platform: BUILDSTEP
+# Experimental Platform: DOKKU MANAGEMENT
 
 Plugins for and configuration updates to dokku for the experimental platform.
 
