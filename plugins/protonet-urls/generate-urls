@@ -4,5 +4,5 @@ set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
 APP="$1";
 HOSTNAME=$(cat $DOKKU_ROOT/HOSTNAME)
 DOMAIN_SUFFIX=$(cat $DOKKU_ROOT/DOMAIN_SUFFIX)
-echo "https://${HOSTNAME}${DOMAIN_SUFFIX}/${APP}"
-echo "http://${HOSTNAME}/${APP}"
+echo "https://${HOSTNAME}${DOMAIN_SUFFIX}/${APP}/"
+echo "http://${HOSTNAME}.local/${APP}/"
