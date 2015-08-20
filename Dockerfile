@@ -24,21 +24,13 @@ RUN apt-get update -y && \
     pluginhook \
     help2man \
     man-db \
+    rsyslog \
     software-properties-common \
     python-software-properties \
   && \
   rm -rf /var/lib/apt/lists/*
 
 RUN adduser --disabled-password --gecos "" --home /data dokku
-
-#
-# Cargo-Culting installation dependencies of `plugin/20_events`.
-#
-RUN adduser --disabled-password --gecos "" --home /data syslog
-RUN mkdir -p /etc/rsyslog.d
-#
-#
-#
 
 ADD https://github.com/protonet/dokku/archive/master.zip /tmp/dokku.zip
 RUN unzip /tmp/dokku.zip -d /tmp/ && \
