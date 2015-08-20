@@ -24,6 +24,7 @@ RUN apt-get update -y && \
     pluginhook \
     help2man \
     man-db \
+    rsyslog \
     software-properties-common \
     python-software-properties \
   && \
