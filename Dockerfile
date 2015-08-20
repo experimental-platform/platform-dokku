@@ -30,6 +30,7 @@ RUN apt-get update -y && \
   rm -rf /var/lib/apt/lists/*
 
 RUN adduser --disabled-password --gecos "" --home /data dokku
+RUN adduser --disabled-password --gecos "" --home /data syslog
 
 ADD https://github.com/protonet/dokku/archive/master.zip /tmp/dokku.zip
 RUN unzip /tmp/dokku.zip -d /tmp/ && \
