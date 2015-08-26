@@ -32,14 +32,14 @@ RUN apt-get update -y && \
 
 RUN adduser --disabled-password --gecos "" --home /data dokku
 
-ADD https://github.com/protonet/dokku/archive/master.zip /tmp/dokku.zip
+ADD https://github.com/experimental-platform/dokku/archive/legacy.zip /tmp/dokku.zip
 RUN unzip /tmp/dokku.zip -d /tmp/ && \
     mkdir -p /var/lib/dokku/ && \
     mv /tmp/dokku-master/* /var/lib/dokku/ && \
     rm -rf /tmp/dokku-master /tmp/dokku.zip && \
     ln -s /var/lib/dokku/dokku /usr/local/bin/dokku
 
-ADD https://github.com/protonet/dokku-linkfile/archive/master.zip /tmp/dokku-linkfile.zip
+ADD https://github.com/experimental-platform/dokku-linkfile/archive/master.zip /tmp/dokku-linkfile.zip
 RUN unzip /tmp/dokku-linkfile.zip -d /tmp/ && \
     mkdir -p /var/lib/dokku/plugins/linkfile/ && \
     mv /tmp/dokku-linkfile-master/* /var/lib/dokku/plugins/linkfile/ && \
