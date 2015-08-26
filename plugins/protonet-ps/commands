@@ -12,7 +12,7 @@ case "$1" in
 
     for dokku_app in $dokku_apps; do
       APP=$(basename $dokku_app)
-      DOKKU_APP_CIDS=$(get_app_container_ids $APP)
+      DOKKU_APP_CIDS=$(get_container_ids $APP)
       DOCKER_RUNNING_CONTAINERS=$(docker ps -q --no-trunc)
       if [[ -n $DOKKU_APP_CIDS ]]; then
         for DOKKU_APP_CID in $DOKKU_APP_CIDS; do
