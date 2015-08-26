@@ -24,6 +24,7 @@ RUN apt-get update -y && \
     pluginhook \
     help2man \
     man-db \
+    rsyslog \
     software-properties-common \
     python-software-properties \
   && \
@@ -31,20 +32,21 @@ RUN apt-get update -y && \
 
 RUN adduser --disabled-password --gecos "" --home /data dokku
 
-ADD https://github.com/protonet/dokku/archive/master.zip /tmp/dokku.zip
+ADD https://github.com/experimental-platform/dokku/archive/legacy.zip /tmp/dokku.zip
 RUN unzip /tmp/dokku.zip -d /tmp/ && \
     mkdir -p /var/lib/dokku/ && \
-    mv /tmp/dokku-master/* /var/lib/dokku/ && \
-    rm -rf /tmp/dokku-master /tmp/dokku.zip && \
+    mv /tmp/dokku-legacy/* /var/lib/dokku/ && \
+    rm -rf /tmp/dokku-legacy /tmp/dokku.zip && \
     ln -s /var/lib/dokku/dokku /usr/local/bin/dokku
 
-ADD https://github.com/protonet/dokku-linkfile/archive/master.zip /tmp/dokku-linkfile.zip
+ADD https://github.com/experimental-platform/dokku-linkfile/archive/master.zip /tmp/dokku-linkfile.zip
 RUN unzip /tmp/dokku-linkfile.zip -d /tmp/ && \
     mkdir -p /var/lib/dokku/plugins/linkfile/ && \
     mv /tmp/dokku-linkfile-master/* /var/lib/dokku/plugins/linkfile/ && \
     rm -rf /tmp/dokku-linkfile-master /tmp/dokku-linkfile.zip
 
 COPY plugins/ /var/lib/dokku/plugins/
+RUN git clone https://github.com/F4-Group/dokku-apt /var/lib/dokku/plugins/dokku-apt
 
 RUN dokku plugins-install-dependencies && dokku plugins-install
 RUN sshcommand create dokku /usr/local/bin/dokku
