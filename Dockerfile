@@ -35,8 +35,8 @@ RUN adduser --disabled-password --gecos "" --home /data dokku
 ADD https://github.com/experimental-platform/dokku/archive/legacy.zip /tmp/dokku.zip
 RUN unzip /tmp/dokku.zip -d /tmp/ && \
     mkdir -p /var/lib/dokku/ && \
-    mv /tmp/dokku-master/* /var/lib/dokku/ && \
-    rm -rf /tmp/dokku-master /tmp/dokku.zip && \
+    mv /tmp/dokku-legacy/* /var/lib/dokku/ && \
+    rm -rf /tmp/dokku-legacy /tmp/dokku.zip && \
     ln -s /var/lib/dokku/dokku /usr/local/bin/dokku
 
 ADD https://github.com/experimental-platform/dokku-linkfile/archive/master.zip /tmp/dokku-linkfile.zip
