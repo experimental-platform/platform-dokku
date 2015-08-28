@@ -8,3 +8,5 @@ STORAGE_PATH="${DOKKU_ROOT}/${APP}/data"
 mkdir -p $STORAGE_PATH
 
 echo "$STDIN --volume=$STORAGE_PATH:/data"
+
+echo "$STDIN --volume=/dev/usb:/dev/usb" || true
