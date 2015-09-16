@@ -1,7 +1,7 @@
 FROM experimentalplatform/ubuntu:latest
 
 # ENV DOKKU_TAG v0.3.17
-ENV DOKKU_REPO https://github.com/protonet/dokku.git
+ENV DOKKU_REPO https://github.com/experimental-platform/dokku.git
 ENV DOKKU_BRANCH master
 ENV DOKKU_ROOT /data
 ENV PLUGIN_PATH /var/lib/dokku/plugins
