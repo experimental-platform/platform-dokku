@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-chown dokku:dokku $DOKKU_ROOT
+chown -R dokku:dokku $DOKKU_ROOT
 
 getent group docker && groupmod -g $DOCKER_GID docker || groupadd -g $DOCKER_GID docker
 
