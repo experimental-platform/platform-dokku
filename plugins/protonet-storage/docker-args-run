@@ -10,5 +10,5 @@ mkdir -p $STORAGE_PATH
 echo "$STDIN --volume=$STORAGE_PATH:/data"
 
 echo "$STDIN --privileged"
-echo "$STDIN --volume=/dev/bus/usb:/dev/bus/usb" || true
-echo "$STDIN --volume=/dev/usb:/dev/usb" || true
+echo "$STDIN --volume=/dev:/dev" || true
+
