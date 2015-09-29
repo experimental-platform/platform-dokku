@@ -4,7 +4,7 @@ FROM experimentalplatform/ubuntu:latest
 ENV DOKKU_REPO https://github.com/experimental-platform/dokku.git
 ENV DOKKU_BRANCH master
 ENV DOKKU_ROOT /data
-ENV PLUGIN_PATH /var/lib/dokku/plugins
+ENV PLUGIN_PATH /var/lib/dokku/core-plugins
 
 RUN apt-get update -y && \
     apt-get install -y apt-transport-https ca-certificates && \
@@ -27,29 +27,40 @@ RUN apt-get update -y && \
     rsyslog \
     software-properties-common \
     python-software-properties \
+    plugn \
   && \
   rm -rf /var/lib/apt/lists/*
 
 RUN adduser --disabled-password --gecos "" --home /data dokku
 
-ADD https://github.com/experimental-platform/dokku/archive/legacy.zip /tmp/dokku.zip
+ADD https://github.com/progrium/dokku/archive/v0.4.1.zip /tmp/dokku.zip
 RUN unzip /tmp/dokku.zip -d /tmp/ && \
     mkdir -p /var/lib/dokku/ && \
-    mv /tmp/dokku-legacy/* /var/lib/dokku/ && \
-    rm -rf /tmp/dokku-legacy /tmp/dokku.zip && \
-    ln -s /var/lib/dokku/dokku /usr/local/bin/dokku
+    mv /tmp/dokku-0.4.1/* /var/lib/dokku/ && \
+    rm -rf /tmp/dokku-0.4.1 /tmp/dokku.zip && \
+    ln -s /var/lib/dokku/dokku /usr/local/bin/dokku && \
+    mkdir -p /var/lib/dokku/core-plugins && \
+    mv /var/lib/dokku/plugins /var/lib/dokku/core-plugins/available && ln -s /var/lib/dokku/core-plugins /var/lib/dokku/plugins && \
+    touch /var/lib/dokku/core-plugins/config.toml /var/lib/dokku/plugins/config.toml && \
+    find /var/lib/dokku/plugins/available/ -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | while read plugin; do touch /var/lib/dokku/core-plugins/available/$plugin/.core; done && \
+    chmod 666 /var/lib/dokku/core-plugins/config.toml /var/lib/dokku/plugins/config.toml
+
+# Patch to remove rails-app configuration on deployment failure
+RUN sed 's#validate_nginx \&\& restart_nginx#\(validate_nginx \&\& restart_nginx\) \|\| \(rm \$DOKKU_ROOT\/\$APP\/\{nginx\,upstream\}\.conf \&\& exit 1\)#' -i /var/lib/dokku/core-plugins/available/nginx-vhosts/functions
 
 ADD https://github.com/experimental-platform/dokku-linkfile/archive/master.zip /tmp/dokku-linkfile.zip
 RUN unzip /tmp/dokku-linkfile.zip -d /tmp/ && \
-    mkdir -p /var/lib/dokku/plugins/linkfile/ && \
-    mv /tmp/dokku-linkfile-master/* /var/lib/dokku/plugins/linkfile/ && \
+    mkdir -p /var/lib/dokku/core-plugins/available/linkfile/ && \
+    mv /tmp/dokku-linkfile-master/* /var/lib/dokku/core-plugins/available/linkfile/ && \
     rm -rf /tmp/dokku-linkfile-master /tmp/dokku-linkfile.zip
 
-COPY plugins/ /var/lib/dokku/plugins/
-RUN git clone https://github.com/F4-Group/dokku-apt /var/lib/dokku/plugins/dokku-apt
-RUN cd /var/lib/dokku/plugins/dokku-apt && git checkout 712feb5ceef1b81a3ca197a9913002068f99f785
+COPY plugins/ /var/lib/dokku/core-plugins/available/
+RUN git clone https://github.com/F4-Group/dokku-apt /var/lib/dokku/core-plugins/available/dokku-apt
+RUN cd /var/lib/dokku/core-plugins/available/dokku-apt && git checkout 0.4.0
 
-RUN dokku plugins-install-dependencies && dokku plugins-install
+RUN find /var/lib/dokku/core-plugins/available/ -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | while read plugin; do plugn enable $plugin; done
+
+RUN dokku plugin:install-dependencies && dokku plugin:install
 RUN sshcommand create dokku /usr/local/bin/dokku
 
 RUN mkdir -p /logs
@@ -57,7 +68,7 @@ RUN mkdir -p /var/run/sshd
 
 COPY supervisord.conf /etc/supervisor/supervisord.conf
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY nginx.conf.app.template /var/lib/dokku/plugins/nginx-vhosts/templates/nginx.conf.template
+COPY nginx.conf.app.template /var/lib/dokku/core-plugins/available/nginx-vhosts/templates/nginx.conf.template
 COPY error_pages/ /error_pages/
 
 # we do not need this. Everything important is defined in nginx.conf above.
