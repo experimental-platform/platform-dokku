@@ -47,6 +47,7 @@ RUN unzip /tmp/dokku-linkfile.zip -d /tmp/ && \
 
 COPY plugins/ /var/lib/dokku/plugins/
 RUN git clone https://github.com/F4-Group/dokku-apt /var/lib/dokku/plugins/dokku-apt
+RUN cd /var/lib/dokku/plugins/dokku-apt && git checkout 712feb5ceef1b81a3ca197a9913002068f99f785
 
 RUN dokku plugins-install-dependencies && dokku plugins-install
 RUN sshcommand create dokku /usr/local/bin/dokku
