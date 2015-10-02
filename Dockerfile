@@ -45,6 +45,9 @@ RUN unzip /tmp/dokku.zip -d /tmp/ && \
     find /var/lib/dokku/plugins/available/ -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | while read plugin; do touch /var/lib/dokku/core-plugins/available/$plugin/.core; done && \
     chmod 666 /var/lib/dokku/core-plugins/config.toml /var/lib/dokku/plugins/config.toml
 
+# set PLUGIN_PATH on sudo
+RUN echo "export PLUGIN_PATH=$PLUGIN_PATH" >> /etc/environment
+
 # this causes dokku to use our buildstep image
 RUN sed -i /usr/local/bin/dokku -e 's#gliderlabs/herokuish#experimentalplatform/buildstep:herokuish#'
 
