@@ -48,6 +48,10 @@ RUN unzip /tmp/dokku.zip -d /tmp/ && \
 # this causes dokku to use our buildstep image
 RUN sed -i /usr/local/bin/dokku -e 's#gliderlabs/herokuish#experimentalplatform/buildstep:herokuish#'
 
+# move nginx upstream to a separate file
+COPY upstream.patch /var/lib/dokku/core-plugins/available/nginx-vhosts/upstream.patch
+RUN cd /var/lib/dokku/core-plugins/available/nginx-vhosts/ && patch -p0 < upstream.patch
+
 # Patch to remove rails-app configuration on deployment failure
 RUN sed 's#validate_nginx \&\& restart_nginx#\(validate_nginx \&\& restart_nginx\) \|\| \(rm \$DOKKU_ROOT\/\$APP\/\{nginx\,upstream\}\.conf \&\& exit 1\)#' -i /var/lib/dokku/core-plugins/available/nginx-vhosts/functions
 
