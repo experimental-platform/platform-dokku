@@ -6,6 +6,10 @@ cat /config/hostname > $DOKKU_ROOT/HOSTNAME
 cat /config/hostname > $DOKKU_ROOT/VHOST
 echo ".protonet.info" > $DOKKU_ROOT/DOMAIN_SUFFIX
 
+
+mkdir -p $DOKKU_ROOT/.ssh/ && chmod 700 $DOKKU_ROOT/.ssh/
+echo "export PLUGIN_PATH=$PLUGIN_PATH" >> $DOKKU_ROOT/.ssh/environment
+
 [[ -e $DOKKU_ROOT/.sshcommand ]] || /usr/local/bin/sshcommand create dokku `which dokku`
 
 echo -n "" > $DOKKU_ROOT/.ssh/authorized_keys
