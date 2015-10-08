@@ -55,6 +55,10 @@ RUN sed -i /usr/local/bin/dokku -e 's#gliderlabs/herokuish#experimentalplatform/
 COPY upstream.patch /var/lib/dokku/core-plugins/available/nginx-vhosts/upstream.patch
 RUN cd /var/lib/dokku/core-plugins/available/nginx-vhosts/ && patch -p0 < upstream.patch
 
+# trigger generate-urls hook
+COPY hook-generate-urls.patch /var/lib/dokku/core-plugins/available/nginx-vhosts/hook-generate-urls.patch
+RUN cd /var/lib/dokku/core-plugins/available/nginx-vhosts/ && patch -p0 < hook-generate-urls.patch
+
 # Patch to remove rails-app configuration on deployment failure
 RUN sed 's#validate_nginx \&\& restart_nginx#\(validate_nginx \&\& restart_nginx\) \|\| \(rm \$DOKKU_ROOT\/\$APP\/\{nginx\,upstream\}\.conf \&\& exit 1\)#' -i /var/lib/dokku/core-plugins/available/nginx-vhosts/functions
 
