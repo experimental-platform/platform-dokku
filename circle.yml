@@ -8,7 +8,10 @@ dependencies:
 
 test:
   override:
-    - "echo 'TODO: Insert some tests here?'"
+#    - docker run -d --name testcontainer experimentalplatform/dokku:$CIRCLE_BRANCH
+#    - 'PID=$(docker inspect --format {{.State.Pid}} testcontainer); [[ "$(sudo nsenter --target $PID --mount --uts --ipc --net --pid dokku config:get --global DOKKU_WAIT_TO_RETIRE)" == 0 ]]'
+#    - '[[ "$(docker exec -t -u dokku testcontainer dokku config:get --global DOKKU_WAIT_TO_RETIRE)" == 0 ]]'
+    - "echo 'TODO: Insert some more tests here?'"
 
 deployment:
   ignore:
@@ -31,3 +34,4 @@ deployment:
         --data "{\"build_parameters\": {\"SERVICE_TAG\": \"$CIRCLE_BRANCH\", \"SERVICE_NAME\": \"dokku\"}}"
         --request POST
         https://circleci.com/api/v1/project/experimental-platform/platform-configure/tree/development?circle-token=$CIRCLE_TOKEN
+

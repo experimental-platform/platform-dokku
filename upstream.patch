@@ -1,0 +1,35 @@
+diff --git functions functions
+index dd441d7..2518bc1 100755
+--- functions
++++ functions
+@@ -157,6 +157,7 @@ nginx_build_config() {
+     [[ -f "$APP_NGINX_TEMPLATE" ]] && NGINX_TEMPLATE="$APP_NGINX_TEMPLATE" && NGINX_CUSTOM_TEMPLATE="true" && dokku_log_info1 'Overriding default nginx.conf with detected nginx.conf.template'
+ 
+     NGINX_CONF=$(mktemp -t "nginx.conf.XXXXXX")
++    UPSTREAM_CONF=$(mktemp -t "upstream.conf.XXXXXX")
+     SCHEME="http"
+ 
+     # if the app has is not vhost enabled then, let's make sure we're cleaned up
+@@ -252,17 +253,18 @@ EOF
+     fi
+ 
+     if [[ -n "$DOKKU_APP_LISTEN_PORT" ]] && [[ -n "$DOKKU_APP_LISTEN_IP" ]]; then
+-      echo "upstream $APP { server $DOKKU_APP_LISTEN_IP:$DOKKU_APP_LISTEN_PORT; }" >> $NGINX_CONF
++      echo "upstream $APP { server $DOKKU_APP_LISTEN_IP:$DOKKU_APP_LISTEN_PORT; }" >> $UPSTREAM_CONF
+     elif [[ -n "$DOKKU_APP_LISTENERS" ]]; then
+-      echo "upstream $APP { " >> $NGINX_CONF
++      echo "upstream $APP { " >> $UPSTREAM_CONF
+       for listener in $DOKKU_APP_LISTENERS; do
+-        echo "  server $listener;" >> $NGINX_CONF
++        echo "  server $listener;" >> $UPSTREAM_CONF
+       done
+-      echo "}" >> $NGINX_CONF
++      echo "}" >> $UPSTREAM_CONF
+     fi
+ 
+     dokku_log_info1 "Creating $SCHEME nginx.conf"
+     mv $NGINX_CONF "$DOKKU_ROOT/$APP/nginx.conf"
++    mv $UPSTREAM_CONF "$DOKKU_ROOT/$APP/upstream.conf"
+ 
+     if is_deployed "$APP"; then
+       dokku_log_info1 "Running nginx-pre-reload"
