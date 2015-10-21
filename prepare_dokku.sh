@@ -15,6 +15,9 @@ echo "export PLUGIN_PATH=$PLUGIN_PATH" >> $DOKKU_ROOT/.ssh/environment
 # this prevents old containers from remaining forever if system is rebooted during the default retirement delay
 dokku config:set --global DOKKU_WAIT_TO_RETIRE=0
 
+# this hopefully will prevent dokku from setting app-specific NO_VHOST to 1
+dokku config:set --global NO_VHOST=0
+
 echo -n "" > $DOKKU_ROOT/.ssh/authorized_keys
 for KEYFILE in /config/ssh/*
 do
