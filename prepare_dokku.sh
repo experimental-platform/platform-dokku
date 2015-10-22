@@ -25,11 +25,6 @@ for i in $(dokku ls | tail -n+2 | awk '{print $1}'); do
 	fi
 done
 
-# redeploy running apps to update IP configuration
-for i in $(dokku protonet:ls | awk '{ if($5=="started") print $1}'); do
-	sudo -EHu dokku dokku deploy $i
-done
-
 echo -n "" > $DOKKU_ROOT/.ssh/authorized_keys
 for KEYFILE in /config/ssh/*
 do
