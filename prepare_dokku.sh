@@ -21,7 +21,7 @@ dokku config:set --global NO_VHOST=0
 # disable NO_VHOST for each app that got it
 for i in $(dokku ls | tail -n+2 | awk '{print $1}'); do
 	if [[ "$(dokku config:get $i NO_VHOST)" == "1" ]]; then
-		sudo -nEH -u dokku bash -c "dokku config:unset $i NO_VHOST"
+		dokku config:unset $i NO_VHOST
 	fi
 done
 
