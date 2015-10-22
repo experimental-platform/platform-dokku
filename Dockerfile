@@ -28,6 +28,7 @@ RUN apt-get update -y && \
     software-properties-common \
     python-software-properties \
     plugn \
+    patch \
   && \
   rm -rf /var/lib/apt/lists/*
 
