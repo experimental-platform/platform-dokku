@@ -60,6 +60,10 @@ RUN cd /var/lib/dokku/core-plugins/available/nginx-vhosts/ && patch -p0 < upstre
 COPY hook-generate-urls.patch /var/lib/dokku/core-plugins/available/nginx-vhosts/hook-generate-urls.patch
 RUN cd /var/lib/dokku/core-plugins/available/nginx-vhosts/ && patch -p0 < hook-generate-urls.patch
 
+# cleanup old container after every deployment to prevent old stopped containers from being restarted on reboot
+COPY after_deployment_cleanup.patch /var/lib/dokku/after_deployment_cleanup.patch
+RUN cd /usr/local/bin/ && patch -p1 < /var/lib/dokku/after_deployment_cleanup.patch
+
 # Patch to remove rails-app configuration on deployment failure
 RUN sed 's#validate_nginx \&\& restart_nginx#\(validate_nginx \&\& restart_nginx\) \|\| \(rm \$DOKKU_ROOT\/\$APP\/\{nginx\,upstream\}\.conf \&\& exit 1\)#' -i /var/lib/dokku/core-plugins/available/nginx-vhosts/functions
 
