@@ -1,0 +1,12 @@
+diff --git a/dokku b/dokku
+index b159930..045033c 100755
+--- a/dokku
++++ b/dokku
+@@ -200,6 +200,7 @@ case "$1" in
+           || docker kill $oldid \
+           || plugn trigger retire-container-failed $APP # plugin trigger for event logging
+         done
++        docker_cleanup
+       ) & disown -a
+       # Use trap since disown/nohup don't seem to keep child alive
+       # Give child process just enough time to set the traps
