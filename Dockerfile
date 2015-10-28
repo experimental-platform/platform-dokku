@@ -81,7 +81,7 @@ RUN sshcommand create dokku /usr/local/bin/dokku
 RUN mkdir -p /logs
 RUN mkdir -p /var/run/sshd
 
-COPY remove-containers-with-restart-policy.sh /remove-containers-with-restart-policy.sh
+COPY dokku-restore.sh /dokku-restore.sh
 COPY supervisord.conf /etc/supervisor/supervisord.conf
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY nginx.conf.app.template /var/lib/dokku/core-plugins/available/nginx-vhosts/templates/nginx.conf.template
