@@ -34,11 +34,11 @@ RUN apt-get update -y && \
 
 RUN adduser --disabled-password --gecos "" --home /data dokku
 
-ADD https://github.com/experimental-platform/dokku/archive/restore-v0.4.3.zip /tmp/dokku.zip
+ADD https://github.com/experimental-platform/dokku/archive/f13796fa57a619d005be4e4b2868416f3f929c41.zip /tmp/dokku.zip
 RUN unzip /tmp/dokku.zip -d /tmp/ && \
     mkdir -p /var/lib/dokku/ && \
-    mv /tmp/dokku-restore-v0.4.3/* /var/lib/dokku/ && \
-    rm -rf /tmp/dokku-restore-v0.4.3 /tmp/dokku.zip && \
+    mv /tmp/dokku-f13796fa57a619d005be4e4b2868416f3f929c41/* /var/lib/dokku/ && \
+    rm -rf /tmp/dokku-f13796fa57a619d005be4e4b2868416f3f929c41 /tmp/dokku.zip && \
     ln -s /var/lib/dokku/dokku /usr/local/bin/dokku && \
     mkdir -p /var/lib/dokku/core-plugins && \
     mv /var/lib/dokku/plugins /var/lib/dokku/core-plugins/available && ln -s /var/lib/dokku/core-plugins /var/lib/dokku/plugins && \
