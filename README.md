@@ -15,6 +15,6 @@ All development branches stem from and (re-)integrate here.
 
 ## Branch: Master
 
-[![Build Status](https://travis-ci.org/experimental-platform/platform-dokku.svg?branch=master)](https://travis-ci.org/experimental-platform/platform-dokku) [![](https://badge.imagelayers.io/experimentalplatform/dokku:alpha.svg)](https://imagelayers.io/?images=experimentalplatform/alpha:latest 'Get your own badge on imagelayers.io')
+[![Build Status](https://travis-ci.org/experimental-platform/platform-dokku.svg?branch=master)](https://travis-ci.org/experimental-platform/platform-dokku) [![](https://badge.imagelayers.io/experimentalplatform/dokku:alpha.svg)](https://imagelayers.io/?images=experimentalplatform/dokku:alpha 'Get your own badge on imagelayers.io')
 
 This is the base for &alpha;-channel releases.
