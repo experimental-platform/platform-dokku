@@ -74,6 +74,8 @@ RUN git clone https://github.com/F4-Group/dokku-apt /var/lib/dokku/core-plugins/
 RUN cd /var/lib/dokku/core-plugins/available/dokku-apt && git checkout 0.4.0
 
 RUN find /var/lib/dokku/core-plugins/available/ -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | while read plugin; do plugn enable $plugin; done
+# disable named containers plugin, since it's been problematic so far
+RUN plugn disable named-containers
 
 RUN dokku plugin:install-dependencies && dokku plugin:install
 RUN sshcommand create dokku /usr/local/bin/dokku
