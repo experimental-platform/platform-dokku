@@ -9,12 +9,12 @@ This is a component of the experimental platform. To read more about it please g
 
 ## Branch: Development
 
-[![Circle CI](https://circleci.com/gh/experimental-platform/platform-dokku.svg?style=svg&circle-token=c276eed39a931feb440813f3f699dc051e668f95)](https://circleci.com/gh/experimental-platform/platform-dokku)
+[![Build Status](https://travis-ci.org/experimental-platform/platform-dokku.svg)](https://travis-ci.org/experimental-platform/platform-dokku) [![](https://badge.imagelayers.io/experimentalplatform/dokku:development.svg)](https://imagelayers.io/?images=experimentalplatform/dokku:development 'Get your own badge on imagelayers.io')
 
 All development branches stem from and (re-)integrate here.
 
 ## Branch: Master
 
-[![Circle CI](https://circleci.com/gh/experimental-platform/platform-dokku/tree/master.svg?style=svg&circle-token=c276eed39a931feb440813f3f699dc051e668f95)](https://circleci.com/gh/experimental-platform/platform-dokku/tree/master)
+[![Build Status](https://travis-ci.org/experimental-platform/platform-dokku.svg?branch=master)](https://travis-ci.org/experimental-platform/platform-dokku) [![](https://badge.imagelayers.io/experimentalplatform/dokku:alpha.svg)](https://imagelayers.io/?images=experimentalplatform/dokku:alpha 'Get your own badge on imagelayers.io')
 
 This is the base for &alpha;-channel releases.

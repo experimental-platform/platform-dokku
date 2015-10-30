@@ -1,6 +1,6 @@
 FROM experimentalplatform/ubuntu:latest
 
-# ENV DOKKU_TAG v0.3.17
+# ENV DOKKU_TAG v0.4.3
 ENV DOKKU_REPO https://github.com/experimental-platform/dokku.git
 ENV DOKKU_BRANCH master
 ENV DOKKU_ROOT /data
@@ -34,11 +34,11 @@ RUN apt-get update -y && \
 
 RUN adduser --disabled-password --gecos "" --home /data dokku
 
-ADD https://github.com/progrium/dokku/archive/v0.4.1.zip /tmp/dokku.zip
+ADD https://github.com/experimental-platform/dokku/archive/f13796fa57a619d005be4e4b2868416f3f929c41.zip /tmp/dokku.zip
 RUN unzip /tmp/dokku.zip -d /tmp/ && \
     mkdir -p /var/lib/dokku/ && \
-    mv /tmp/dokku-0.4.1/* /var/lib/dokku/ && \
-    rm -rf /tmp/dokku-0.4.1 /tmp/dokku.zip && \
+    mv /tmp/dokku-f13796fa57a619d005be4e4b2868416f3f929c41/* /var/lib/dokku/ && \
+    rm -rf /tmp/dokku-f13796fa57a619d005be4e4b2868416f3f929c41 /tmp/dokku.zip && \
     ln -s /var/lib/dokku/dokku /usr/local/bin/dokku && \
     mkdir -p /var/lib/dokku/core-plugins && \
     mv /var/lib/dokku/plugins /var/lib/dokku/core-plugins/available && ln -s /var/lib/dokku/core-plugins /var/lib/dokku/plugins && \
@@ -60,10 +60,6 @@ RUN cd /var/lib/dokku/core-plugins/available/nginx-vhosts/ && patch -p0 < upstre
 COPY hook-generate-urls.patch /var/lib/dokku/core-plugins/available/nginx-vhosts/hook-generate-urls.patch
 RUN cd /var/lib/dokku/core-plugins/available/nginx-vhosts/ && patch -p0 < hook-generate-urls.patch
 
-# cleanup old container after every deployment to prevent old stopped containers from being restarted on reboot
-COPY after_deployment_cleanup.patch /var/lib/dokku/after_deployment_cleanup.patch
-RUN cd /usr/local/bin/ && patch -p1 < /var/lib/dokku/after_deployment_cleanup.patch
-
 # Patch to remove rails-app configuration on deployment failure
 RUN sed 's#validate_nginx \&\& restart_nginx#\(validate_nginx \&\& restart_nginx\) \|\| \(rm \$DOKKU_ROOT\/\$APP\/\{nginx\,upstream\}\.conf \&\& exit 1\)#' -i /var/lib/dokku/core-plugins/available/nginx-vhosts/functions
 
@@ -78,6 +74,8 @@ RUN git clone https://github.com/F4-Group/dokku-apt /var/lib/dokku/core-plugins/
 RUN cd /var/lib/dokku/core-plugins/available/dokku-apt && git checkout 0.4.0
 
 RUN find /var/lib/dokku/core-plugins/available/ -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | while read plugin; do plugn enable $plugin; done
+# disable named containers plugin, since it's been problematic so far
+RUN plugn disable named-containers
 
 RUN dokku plugin:install-dependencies && dokku plugin:install
 RUN sshcommand create dokku /usr/local/bin/dokku
@@ -85,6 +83,7 @@ RUN sshcommand create dokku /usr/local/bin/dokku
 RUN mkdir -p /logs
 RUN mkdir -p /var/run/sshd
 
+COPY dokku-restore.sh /dokku-restore.sh
 COPY supervisord.conf /etc/supervisor/supervisord.conf
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY nginx.conf.app.template /var/lib/dokku/core-plugins/available/nginx-vhosts/templates/nginx.conf.template
