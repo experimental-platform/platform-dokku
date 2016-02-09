@@ -13,4 +13,3 @@ echo "$STDIN --volume=$STORAGE_PATH:/data"
 echo "$STDIN --volume=/data/pulseaudio:/var/run/pulse"
 echo "$STDIN --volume=/data/hardware:/hardware"
 
-echo "$STDIN --privileged"
