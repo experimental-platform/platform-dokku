@@ -1,4 +1,4 @@
-FROM experimentalplatform/ubuntu:latest
+FROM quay.io/experimentalplatform/ubuntu:latest
 
 # ENV DOKKU_TAG v0.4.3
 ENV DOKKU_REPO https://github.com/experimental-platform/dokku.git
